@@ -21,7 +21,9 @@ The game combines classic arcade gameplay with animated menus, adjustable AI dif
 
 | Key | Action |
 |---|---|
-| Up / Down arrows | Navigate menus and move the player paddle |
+| W | Move player paddle up |
+| S | Move player paddle down |
+| Up / Down arrows | Navigate menus |
 | Enter | Select a menu option |
 | Left / Right arrows | Adjust settings |
 | Esc | Pause, resume or return from Settings |
