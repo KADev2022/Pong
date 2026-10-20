@@ -1,6 +1,8 @@
 import pygame
 import settings
 
+from paths import resource_path
+
 current_music = None
 
 def play_music(filename):
@@ -9,7 +11,7 @@ def play_music(filename):
     if current_music == filename:
         return
     
-    pygame.mixer.music.load(filename)
+    pygame.mixer.music.load(resource_path(filename))
     pygame.mixer.music.set_volume(settings.MUSIC_VOLUME)
     pygame.mixer.music.play(-1)
     

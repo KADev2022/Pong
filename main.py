@@ -9,6 +9,7 @@ from particle import Particle
 from highscore import load_high_score, save_high_score
 from music_manager import play_music, set_music_volume
 from settings_manager import load_settings, save_settings
+from paths import resource_path
 
 pygame.init()
 
@@ -16,13 +17,13 @@ pygame.mixer.init()
 
 play_music(settings.MENU_MUSIC)
 
-paddle_sound = pygame.mixer.Sound(settings.PADDLE_SOUND)
-wall_sound = pygame.mixer.Sound(settings.WALL_SOUND)
-score_sound = pygame.mixer.Sound(settings.SCORE_SOUND)
+paddle_sound = pygame.mixer.Sound(resource_path(settings.PADDLE_SOUND))
+wall_sound = pygame.mixer.Sound(resource_path(settings.WALL_SOUND))
+score_sound = pygame.mixer.Sound(resource_path(settings.SCORE_SOUND))
 
-menu_move_sound = pygame.mixer.Sound(settings.MENU_MOVE_SOUND)
-menu_select_sound = pygame.mixer.Sound(settings.MENU_SELECT_SOUND)
-menu_back_sound = pygame.mixer.Sound(settings.MENU_BACK_SOUND)
+menu_move_sound = pygame.mixer.Sound(resource_path(settings.MENU_MOVE_SOUND))
+menu_select_sound = pygame.mixer.Sound(resource_path(settings.MENU_SELECT_SOUND))
+menu_back_sound = pygame.mixer.Sound(resource_path(settings.MENU_BACK_SOUND))
 
 menu_sounds = [menu_move_sound, menu_select_sound, menu_back_sound]
 

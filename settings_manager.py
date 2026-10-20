@@ -1,8 +1,13 @@
 import json
 from pathlib import Path
 
-# Store settings beside this Python file
-SETTINGS_FILE = Path(__file__).resolve().parent / "settings.json"
+from paths import data_path
+
+# Store settings in the user's application data folder
+SETTINGS_FILE = Path(data_path("settings.json"))
+
+# Existing settings file in the project folder
+LEGACY_SETTINGS_FILE = Path(__file__).resolve().parent / "settings.json"
 
 # Default settings
 DEFAULT_SETTINGS = {
@@ -13,13 +18,22 @@ DEFAULT_SETTINGS = {
 }
 
 def load_settings():
-    # Return defaults if no settings file exists
-    if not SETTINGS_FILE.exists():
+    # Prefer the new settings file if it already exists
+    if SETTINGS_FILE.exists():
+        file_to_load = SETTINGS_FILE
+    # Otherwise, use the existing project settings file
+    elif LEGACY_SETTINGS_FILE.exists():
+        file_to_load = LEGACY_SETTINGS_FILE
+    else:
         return DEFAULT_SETTINGS.copy()
+        
 
     try:
-        with open(SETTINGS_FILE, "r") as file:
+        with open(SETTINGS_FILE, "r", encoding="utf-8") as file:
             saved_settings = json.load(file)
+        
+        if not isinstance(saved_settings, dict):
+            raise ValueError("Invalid settings format")
         
         # Merge saved settings with defaults
         loaded_settings = DEFAULT_SETTINGS.copy()
@@ -41,7 +55,17 @@ def load_settings():
         # Validate fullscreen preference
         if type(loaded_settings["fullscreen"]) is not bool:
             loaded_settings["fullscreen"] = False
-            
+        
+        # Migrate existing settings to AppData
+        if file_to_load == LEGACY_SETTINGS_FILE:
+            try:
+                with open(SETTINGS_FILE, "w", encoding="utf-8") as file:
+                    json.dump(loaded_settings, file, indent=4)
+                
+                print("Existing settings migrated successfully.")
+            except OSError as error:
+                print(f"Could not migrate settings: {error}")
+        
         return loaded_settings
     except (OSError, ValueError, TypeError):
         return DEFAULT_SETTINGS.copy()
@@ -55,7 +79,7 @@ def save_settings(music_volume, sound_volume, difficulty, fullscreen=False):
     }
     
     try:
-        with open(SETTINGS_FILE, "w") as file:
+        with open(SETTINGS_FILE, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
     except OSError as error:
         print(f"Could not save settings: {error}")
