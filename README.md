@@ -27,6 +27,7 @@ The game combines classic arcade gameplay with animated menus, adjustable AI dif
 | Enter | Select a menu option |
 | Left / Right arrows | Adjust settings |
 | Esc | Pause, resume or return from Settings |
+| Space | Resume the match from Pause |
 | R | Restart a match from Pause or Game Over |
 | Q | Quit from the Pause menu |
 
